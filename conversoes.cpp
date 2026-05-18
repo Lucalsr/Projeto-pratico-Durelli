@@ -3,13 +3,13 @@
 #include <cmath>
 using namespace std;
 string divisoessucessivas(float decimal, int basefinal);
-double binariopdecimalposicional(string binario);
+double somatorioposicionalparadecimal(string numero, int baseinicial);
 int main()
 {
     int basefinal;
-    float numero;
+    string numero;
     cin >> numero >> basefinal;
-    cout << divisoessucessivas(numero, basefinal);
+    cout << somatorioposicionalparadecimal(numero, basefinal);
 }
 string divisoessucessivas(float decimal, int basefinal)
 {
@@ -33,16 +33,20 @@ string divisoessucessivas(float decimal, int basefinal)
     return numero;
 }
 
-double binariopdecimalposicional(string binario)
+double somatorioposicionalparadecimal(string numero, int baseinicial)
 {
     int i = 0;
     float total = 0;
-    int tamanho = binario.length();
+    int tamanho = numero.length();
     string decimal = "";
     while(i < tamanho)
     {
-        int caracter = (int)(binario[tamanho - (i + 1)]) - '0';
-        caracter = pow(2, i) * caracter;
+        int caracter = (int)(numero[tamanho - (i + 1)]) - '0';
+        if(caracter > 10)
+        {
+            caracter -= 7;
+        }
+        caracter = pow(baseinicial, i) * caracter;
         total += caracter;
         i++;
     }
