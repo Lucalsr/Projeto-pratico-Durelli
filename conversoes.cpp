@@ -2,24 +2,51 @@
 #include <string>
 #include <cmath>
 using namespace std;
-string divisoessucessivas(float decimal, int basefinal);
+string divisoessucessivas(double decimal, int basefinal);
 double somatorioposicional(string numero, int baseinicial);
 int main()
 {
     int basefinal;
-    string numero;
+    double numero;
     cin >> numero >> basefinal;
-    cout << somatorioposicional(numero, basefinal);
+    cout << divisoessucessivas(numero, basefinal);
 }
-string divisoessucessivas(float decimal, int basefinal)
+string divisoessucessivas(double decimal, int basefinal)
 {
-    int decimalh = (int)decimal;
+    long parteinteira = (long)decimal;
+    double partefracionada = 0;
+    partefracionada = decimal - parteinteira;
     string numero = "";
-    while(decimalh > 0)
+    string str_fracionada = "";
+    int precisao_decimal = 16;
+    int casas = 0;
+    if(partefracionada > 0)
+    {
+        while(partefracionada > 0 && casas < precisao_decimal) 
+        {
+            partefracionada *= basefinal;
+            int fracaoquevai = (int)partefracionada;
+            if(fracaoquevai > 9)
+            {
+                str_fracionada = str_fracionada + (char)(fracaoquevai + 55);
+            }
+            else
+            {
+                str_fracionada = str_fracionada + (char)(fracaoquevai + '0');
+            }
+            partefracionada -= fracaoquevai;
+            casas++;
+        }
+    }
+    if (parteinteira == 0)
+    {
+        numero = "0";
+    }
+    while(parteinteira > 0)
     {
         int resto = 0;
-        resto = decimalh % basefinal;
-        decimalh /= basefinal;
+        resto = parteinteira % basefinal;
+        parteinteira /= basefinal;
         if(resto > 9)
         {
            numero = (char)(resto + 55) + numero;
@@ -30,7 +57,14 @@ string divisoessucessivas(float decimal, int basefinal)
             numero = (char)(resto + '0') + numero;
         }
     }
-    return numero;
+    if(str_fracionada != "")
+    {
+        return numero + "." + str_fracionada;
+    }
+    else
+    {
+        return numero;
+    }
 }
 
 double somatorioposicional(string numero, int baseinicial)
