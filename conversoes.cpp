@@ -3,13 +3,13 @@
 #include <cmath>
 using namespace std;
 string divisoessucessivas(float decimal, int basefinal);
-double somatorioposicionalparadecimal(string numero, int baseinicial);
+double somatorioposicional(string numero, int baseinicial);
 int main()
 {
     int basefinal;
     string numero;
     cin >> numero >> basefinal;
-    cout << somatorioposicionalparadecimal(numero, basefinal);
+    cout << somatorioposicional(numero, basefinal);
 }
 string divisoessucessivas(float decimal, int basefinal)
 {
@@ -33,22 +33,46 @@ string divisoessucessivas(float decimal, int basefinal)
     return numero;
 }
 
-double somatorioposicionalparadecimal(string numero, int baseinicial)
+double somatorioposicional(string numero, int baseinicial)
 {
-    int i = 0;
-    float total = 0;
-    int tamanho = numero.length();
-    string decimal = "";
-    while(i < tamanho)
+    size_t ponto = numero.find_first_of(".,");
+    string parteinteira = "";
+    string partefracionada = "";
+    if(ponto != std::string::npos)
     {
-        int caracter = (int)(numero[tamanho - (i + 1)]) - '0';
-        if(caracter > 10)
+        parteinteira = numero.substr(0, ponto);
+        partefracionada = numero.substr(ponto + 1);
+    }
+    else
+    {
+        parteinteira = numero;
+    }
+    int i = 0;
+    double total = 0;
+    int tamanhointeiro = parteinteira.length();
+    while(i < tamanhointeiro)
+    {
+        int caracter = (int)(parteinteira[tamanhointeiro - (i + 1)]) - '0';
+        if(caracter > 9)
         {
             caracter -= 7;
         }
         caracter = pow(baseinicial, i) * caracter;
         total += caracter;
         i++;
+    }
+    int tamanhofracionada = partefracionada.length();
+    int j = 0;
+    while(j < tamanhofracionada)
+    {
+        double caracter = (int)(partefracionada[j] - '0');
+        if(caracter > 9)
+        {
+            caracter -= 7;
+        }
+        caracter = pow(baseinicial, -(j + 1)) * caracter;
+        total += caracter;
+        j++;
     }
     return total;
 
