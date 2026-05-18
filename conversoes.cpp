@@ -1,59 +1,51 @@
 #include <iostream>
+#include <string>
+#include <cmath>
 using namespace std;
-string decimalparabinario(float decimal);
-string decimalparaoctal(float decimal);
-string decimalparahexa(float decimal);
+string divisoessucessivas(float decimal, int basefinal);
+double binariopdecimalposicional(string binario);
 int main()
 {
-    float decimal;
-    cin >> decimal;
-    cout << decimalparabinario(decimal) << endl << decimalparaoctal(decimal) << endl << decimalparahexa(decimal);
+    int basefinal;
+    float numero;
+    cin >> numero >> basefinal;
+    cout << divisoessucessivas(numero, basefinal);
 }
-string decimalparabinario(float decimal)
-{
-    int decimalt = (int)decimal;
-    string binario = "";
-    while(decimalt > 0)
-    {
-        binario = char((decimalt % 2) + '0') + binario;
-        decimalt /= 2; 
-    }
-    return binario;
-}
-
-string decimalparaoctal(float decimal)
-{
-    int decimalo = (int)decimal;
-    string octal = "";
-    while(decimalo > 0)
-    {
-        octal = char((decimalo % 8) + '0') + octal;
-        decimalo /= 8;
-    }
-    return octal;
-}
-
-string decimalparahexa(float decimal)
+string divisoessucessivas(float decimal, int basefinal)
 {
     int decimalh = (int)decimal;
-    string hexadecimal = "";
+    string numero = "";
     while(decimalh > 0)
     {
         int resto = 0;
-        resto = decimalh % 16;
-        decimalh /= 16;
+        resto = decimalh % basefinal;
+        decimalh /= basefinal;
         if(resto > 9)
         {
-           hexadecimal = (char)(resto + 55) + hexadecimal;
+           numero = (char)(resto + 55) + numero;
             
         }
         else
         {
-            hexadecimal = (char)(resto + '0') + hexadecimal;
+            numero = (char)(resto + '0') + numero;
         }
-
     }
-    return hexadecimal;
+    return numero;
+}
 
+double binariopdecimalposicional(string binario)
+{
+    int i = 0;
+    float total = 0;
+    int tamanho = binario.length();
+    string decimal = "";
+    while(i < tamanho)
+    {
+        int caracter = (int)(binario[tamanho - (i + 1)]) - '0';
+        caracter = pow(2, i) * caracter;
+        total += caracter;
+        i++;
+    }
+    return total;
 
 }
