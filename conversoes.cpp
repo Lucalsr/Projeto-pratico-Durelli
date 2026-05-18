@@ -11,25 +11,26 @@ int main()
     cin >> numero >> basefinal;
     cout << divisoessucessivas(numero, basefinal);
 }
-string divisoessucessivas(double decimal, int basefinal)
+string divisoessucessivas(double decimal, int basefinal)  //decimal para outras bases
 {
     long parteinteira = (long)decimal;
-    double partefracionada = 0;
+    double partefracionada = 0;              //separa parte inteira da fracionada
     partefracionada = decimal - parteinteira;
     string numero = "";
     string str_fracionada = "";
-    int precisao_decimal = 16;
+    int precisao_decimal = 16; //define limite de caracteres fracionarios
     int casas = 0;
     if(partefracionada > 0)
     {
-        while(partefracionada > 0 && casas < precisao_decimal) 
+        while(partefracionada > 0 && casas < precisao_decimal) //converte parte fracionada em caracter da base escolhida
         {
             partefracionada *= basefinal;
             int fracaoquevai = (int)partefracionada;
-            if(fracaoquevai > 9)
+            if(fracaoquevai > 9)                             
             {
-                str_fracionada = str_fracionada + (char)(fracaoquevai + 55);
-            }
+                str_fracionada = str_fracionada + (char)(fracaoquevai + 55);         
+                                                                                    
+            }                                                                            
             else
             {
                 str_fracionada = str_fracionada + (char)(fracaoquevai + '0');
@@ -49,8 +50,7 @@ string divisoessucessivas(double decimal, int basefinal)
         parteinteira /= basefinal;
         if(resto > 9)
         {
-           numero = (char)(resto + 55) + numero;
-            
+           numero = (char)(resto + 55) + numero; //converte parte inteira para o caracter da base escolhida
         }
         else
         {
@@ -67,14 +67,14 @@ string divisoessucessivas(double decimal, int basefinal)
     }
 }
 
-double somatorioposicional(string numero, int baseinicial)
+double somatorioposicional(string numero, int baseinicial) //outras bases para decimal
 {
     size_t ponto = numero.find_first_of(".,");
     string parteinteira = "";
     string partefracionada = "";
     if(ponto != std::string::npos)
     {
-        parteinteira = numero.substr(0, ponto);
+        parteinteira = numero.substr(0, ponto);        //separa parte fracionada e inteira de qualquer base
         partefracionada = numero.substr(ponto + 1);
     }
     else
@@ -86,7 +86,7 @@ double somatorioposicional(string numero, int baseinicial)
     int tamanhointeiro = parteinteira.length();
     while(i < tamanhointeiro)
     {
-        int caracter = (int)(parteinteira[tamanhointeiro - (i + 1)]) - '0';
+        int caracter = (int)(parteinteira[tamanhointeiro - (i + 1)]) - '0';     //transforma parte inteira em base 10
         if(caracter > 9)
         {
             caracter -= 7;
@@ -99,7 +99,7 @@ double somatorioposicional(string numero, int baseinicial)
     int j = 0;
     while(j < tamanhofracionada)
     {
-        double caracter = (int)(partefracionada[j] - '0');
+        double caracter = (int)(partefracionada[j] - '0');      //transforma parte fracionaria em base 10
         if(caracter > 9)
         {
             caracter -= 7;
