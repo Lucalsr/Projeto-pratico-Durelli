@@ -1,20 +1,8 @@
+#include "conversoes.h" 
 #include <iostream>
 #include <string>
 #include <cmath>
 using namespace std;
-
-string divisoessucessivas(double decimal, int basefinal); //F1
-double somatorioposicional(string numero, int baseinicial); //F2
-string agrupamentobits(string binario, int base_destino); //  requisito pro F3
-string desagrupamentobits(string numero, int baseinicial); // F4
-
-int main()
-{
-    int basefinal;
-    string numero;
-    cin >> numero >> basefinal;
-    cout << desagrupamentobits(numero, basefinal);
-}
 
 string divisoessucessivas(double decimal, int basefinal)  //decimal para outras bases
 {
