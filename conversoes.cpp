@@ -3,16 +3,17 @@
 #include <cmath>
 using namespace std;
 
-string divisoessucessivas(double decimal, int basefinal);
-double somatorioposicional(string numero, int baseinicial);
+string divisoessucessivas(double decimal, int basefinal); //F1
+double somatorioposicional(string numero, int baseinicial); //F2
 string agrupamentobits(string binario, int base_destino); //  requisito pro F3
+string desagrupamentobits(string numero, int baseinicial); // F4
 
 int main()
 {
     int basefinal;
-    double numero;
+    string numero;
     cin >> numero >> basefinal;
-    cout << divisoessucessivas(numero, basefinal);
+    cout << desagrupamentobits(numero, basefinal);
 }
 
 string divisoessucessivas(double decimal, int basefinal)  //decimal para outras bases
@@ -197,4 +198,51 @@ string agrupamentobits(string binario, int base_destino) // converte binario par
     }
 
     return resultado_inteiro;
+}
+
+string desagrupamentobits(string numero, int baseinicial)
+{
+    int tamanho_grupo;
+    if (baseinicial == 8) {
+        tamanho_grupo = 3;
+    } else if (baseinicial == 16) {
+        tamanho_grupo = 4;
+    } else {
+        return ""; 
+    }
+
+    string binario = "";
+
+    // Percorre a string original caractere por caractere
+    for (size_t i = 0; i < numero.length(); i++) 
+    {
+        char c = numero[i];
+        if (c == '.' || c == ',')
+        {
+            binario += c;
+        }
+        else
+        {
+            int valor = 0;
+            if (c >= '0' && c <= '9') 
+            {
+                valor = c - '0';
+            } 
+            else if (c >= 'A' && c <= 'F') 
+            {
+                valor = c - 55; 
+            }
+
+            string grupo_binario = "";
+            for (int j = 0; j < tamanho_grupo; j++) 
+            {
+                char bit = (char)((valor % 2) + '0'); 
+                grupo_binario = bit + grupo_binario; 
+                valor = valor / 2;
+            }
+            binario += grupo_binario;
+        }
+    }
+    return binario;
+
 }
