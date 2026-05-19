@@ -161,7 +161,7 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal)
         }
         else if(basefinal == 10)
         {
-            numerofinal = somatorioposicional(numero, baseinicial);
+            numerofinal = to_string(somatorioposicional(numero, baseinicial));
         }
         else
         {
