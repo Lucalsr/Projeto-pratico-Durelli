@@ -1,17 +1,51 @@
 #include "parser.h"
 #include "conversoes.h"
+#include "formatador.h"
 #include <iostream>
 #include <cmath>
 #include <fstream>
 #include <string>
 
 using namespace std;
+void verificarintegridade(string &numero, int &baseinicial, int &basefinal);
+string resultadoconversoes(string numero, int baseinicial, int basefinal);
+void modo_batch();
 
 int main()
 {
-    string numero = "";
-    string numerofinal = "";
+    string numero = " ";
     int baseinicial, basefinal;
+    int controladorloop = 0;
+    while(controladorloop == 0)
+    {
+        int escolha;
+        imprimir_cabecalho();
+        imprimir_menu_modos();
+        cin >> escolha;
+        if(escolha >= 1 || escolha <= 5)
+        {
+            controladorloop = 1;
+            cout << system("cls");
+        }
+        else
+        {
+            cout << "Nao ha essa opcao!";
+        }
+        if(escolha == 1)
+        {
+            verificarintegridade(numero, baseinicial, basefinal);
+            cout << resultadoconversoes(numero, baseinicial, basefinal);
+        }
+        else if(escolha == 3)
+        {
+            modo_batch();
+        }
+    }
+    
+   
+}
+void verificarintegridade(string &numero, int &baseinicial, int &basefinal)
+{
     bool verificadorbaseinicial = false;
     cout << "Qual a base numerica inicial do numero?" << endl << "Escreva de forma numerica: ";
     while(!verificadorbaseinicial)    //verificar se a base inicial inserida e suportado
@@ -58,6 +92,12 @@ int main()
             cout << "Base nao suportada." << endl << "Escolha entre 2,8,10 e 16: ";
         }
     }
+
+}
+
+string resultadoconversoes(string numero, int baseinicial, int basefinal)
+{
+    string numerofinal = "";
     //fazer as conversões 
     if(baseinicial == 10)
     {
@@ -79,7 +119,7 @@ int main()
         }
         else if(basefinal == 10)
         {
-            numerofinal = somatorioposicional(numero, baseinicial);
+            numerofinal = to_string(somatorioposicional(numero, baseinicial));
         }
         else
         {
@@ -94,7 +134,7 @@ int main()
         }
         else if(basefinal == 10)
         {
-            numerofinal = somatorioposicional(numero, baseinicial);
+            numerofinal = to_string(somatorioposicional(numero, baseinicial));
         }
         else if(basefinal == 16)
         {
@@ -128,5 +168,25 @@ int main()
             numerofinal = numero;
         }
     }
-    cout << numerofinal << endl;
+    return numerofinal;
+}
+
+void modo_batch()
+{
+    ifstream arqdados("entrada.csv");
+    string valor, base_int, valorsaida = " ";
+    int baseinicial, basefinal;
+    ofstream dadossaida("saida.csv");
+    while(getline(arqdados, valor, ';'))    
+    {
+        getline(arqdados, base_int, ';');
+        baseinicial = stoi(base_int);
+        getline(arqdados, base_int, '\n');
+        basefinal = stoi(base_int);
+        valorsaida = resultadoconversoes(valor, baseinicial, basefinal);
+        dadossaida << valor << ";" << baseinicial << ";" << valorsaida << ";" << basefinal << endl;
+    }
+    cout << "Arquivo 'saida.csv' gerado." << endl;
+    arqdados.close();
+    dadossaida.close();
 }

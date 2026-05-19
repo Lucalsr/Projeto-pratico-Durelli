@@ -83,7 +83,7 @@ double somatorioposicional(string numero, int baseinicial) //outras bases para d
     int tamanhointeiro = parteinteira.length();
     while(i < tamanhointeiro)
     {
-        int caracter = (int)(parteinteira[tamanhointeiro - (i + 1)]) - '0';     //transforma parte inteira em base 10
+        double caracter = (int)(parteinteira[tamanhointeiro - (i + 1)]) - '0';     //transforma parte inteira em base 10
         if(caracter > 9)
         {
             caracter -= 7;
