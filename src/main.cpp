@@ -10,6 +10,7 @@ using namespace std;
 void verificarintegridade(string &numero, int &baseinicial, int &basefinal);
 string resultadoconversoes(string numero, int baseinicial, int basefinal);
 void modo_batch();
+void calculadora_maximos(int bits);
 
 int main()
 {
@@ -40,6 +41,16 @@ int main()
         {
             modo_batch();
         }
+        else if(escolha == 5)
+        {
+            long bits = 0;
+            cout << "Quantos numeros de bits voce deseja calcular o maximo de cada base?: ";
+            cin >> bits;
+            calculadora_maximos(bits);
+        }
+        cout << "Aperte enter para fechar....";
+        cin.ignore();
+        cin.get();
     }
     
    
@@ -189,4 +200,19 @@ void modo_batch()
     cout << "Arquivo 'saida.csv' gerado." << endl;
     arqdados.close();
     dadossaida.close();
+}
+
+void calculadora_maximos(int bits)
+{
+    string maximo_binario, maximo_octal, maximo_decimal, maximo_hexa;
+    int reserva;
+    reserva = pow(2, bits) - 1;
+    maximo_decimal = to_string(reserva);
+    maximo_binario = divisoessucessivas(reserva, 2);
+    maximo_octal = divisoessucessivas(reserva, 8);
+    maximo_hexa = divisoessucessivas(reserva, 16);
+    cout << "Binario: " << maximo_binario << endl;
+    cout << "Octal: " << maximo_octal << endl;
+    cout << "Decimal: " << maximo_decimal << endl;
+    cout << "Hexadecimal: " << maximo_hexa << endl;
 }

@@ -6,7 +6,7 @@ using namespace std;
 
 string divisoessucessivas(double decimal, int basefinal)  //decimal para outras bases
 {
-    long parteinteira = (long)decimal;
+    long long parteinteira = (long)decimal;
     double partefracionada = 0;              //separa parte inteira da fracionada
     partefracionada = decimal - parteinteira;
     string numero = "";
@@ -16,7 +16,7 @@ string divisoessucessivas(double decimal, int basefinal)  //decimal para outras 
     
     if(partefracionada > 0)
     {
-        while(partefracionada > 0 && casas < precisao_decimal) //converte parte fracionada em caracter da base escolhida
+        while(partefracionada > 1e-9 && casas < precisao_decimal) //converte parte fracionada em caracter da base escolhida
         {
             partefracionada *= basefinal;
             int fracaoquevai = (int)partefracionada;
@@ -40,7 +40,7 @@ string divisoessucessivas(double decimal, int basefinal)  //decimal para outras 
     }
     while(parteinteira > 0)
     {
-        int resto = 0;
+        long long resto = 0;
         resto = parteinteira % basefinal;
         parteinteira /= basefinal;
         if(resto > 9)
