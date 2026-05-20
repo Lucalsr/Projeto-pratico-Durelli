@@ -44,12 +44,10 @@ int main()
             verificarintegridade(numero, baseinicial, basefinal);
             cout << "\nResultado: " << resultadoconversoes(numero, baseinicial, basefinal) << endl;
         }
-        //bloco da opção 2 que estava faltando
         else if(escolha == 2)
         {
             cout << "\n--- MODO PASSO-A-PASSO (TRACE) ---\n";
             verificarintegridade(numero, baseinicial, basefinal);
-          
             cout << "\nResultado Final: " << resultadoconversoes(numero, baseinicial, basefinal, true) << endl;
         }
         else if(escolha == 3)
@@ -124,6 +122,7 @@ void verificarintegridade(string &numero, int &baseinicial, int &basefinal)
             cout << "Base nao suportada." << endl << "Escolha entre 2,8,10 e 16: ";
         }
     }
+
 }
 
 string resultadoconversoes(string numero, int baseinicial, int basefinal, bool trace)
@@ -134,7 +133,6 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
         cout << "\n[TRACE] Iniciando conversao do valor '" << numero << "' da base " << baseinicial << " para a base " << basefinal << ".\n";
     }
 
-    //fazer as conversões 
     if(baseinicial == 10)
     {
         if(basefinal == 10)
@@ -143,9 +141,11 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
         }
         else
         {
-            int numeroemint = stoi(numero);
+          
+            double numerodouble = somatorioposicional(numero, baseinicial);
+            
             if(trace) cout << "[TRACE] Aplicando metodo das divisoes sucessivas...\n";
-            numerofinal = divisoessucessivas(numeroemint, basefinal);
+            numerofinal = divisoessucessivas(numerodouble, basefinal);
         }
     }
     else if(baseinicial == 2)
@@ -179,7 +179,6 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
         }
         else if(basefinal == 16)
         {
-            // rastreio exigido no F4
             if(trace) cout << "[TRACE] Passo 1: Desagrupando Octal para base Binaria intermediaria...\n";
             string octembits = desagrupamentobits(numero, baseinicial);
             if(trace) cout << "[TRACE] Binario intermediario gerado: " << octembits << "\n";
@@ -244,13 +243,13 @@ void modo_batch()
 void calculadora_maximos(int bits)
 {
     string maximo_binario, maximo_octal, maximo_decimal, maximo_hexa;
-  
     unsigned long long reserva; 
     reserva = pow(2, bits) - 1;
     maximo_decimal = to_string(reserva);
     maximo_binario = divisoessucessivas(reserva, 2);
     maximo_octal = divisoessucessivas(reserva, 8);
     maximo_hexa = divisoessucessivas(reserva, 16);
+    
     cout << "Binario: " << maximo_binario << endl;
     cout << "Octal: " << maximo_octal << endl;
     cout << "Decimal: " << maximo_decimal << endl;
