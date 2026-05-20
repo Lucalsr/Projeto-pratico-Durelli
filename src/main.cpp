@@ -5,15 +5,20 @@
 #include <cmath>
 #include <fstream>
 #include <string>
+#include <cstdlib> 
+#include <ctime>   
 
 using namespace std;
 void verificarintegridade(string &numero, int &baseinicial, int &basefinal);
 string resultadoconversoes(string numero, int baseinicial, int basefinal);
 void modo_batch();
 void calculadora_maximos(int bits);
+void modo_quiz(); 
 
 int main()
 {
+    srand(time(NULL)); 
+
     string numero = " ";
     int baseinicial, basefinal;
     int controladorloop = 0;
@@ -23,23 +28,29 @@ int main()
         imprimir_cabecalho();
         imprimir_menu_modos();
         cin >> escolha;
-        if(escolha >= 1 || escolha <= 5)
+        
+        if(escolha >= 1 && escolha <= 5) 
         {
             controladorloop = 1;
             cout << system("cls");
         }
         else
         {
-            cout << "Nao ha essa opcao!";
+            cout << "Nao ha essa opcao!\n";
         }
+
         if(escolha == 1)
         {
             verificarintegridade(numero, baseinicial, basefinal);
-            cout << resultadoconversoes(numero, baseinicial, basefinal);
+            cout << "\nResultado: " << resultadoconversoes(numero, baseinicial, basefinal) << endl;
         }
         else if(escolha == 3)
         {
             modo_batch();
+        }
+        else if(escolha == 4) 
+        {
+            modo_quiz();
         }
         else if(escolha == 5)
         {
@@ -48,13 +59,15 @@ int main()
             cin >> bits;
             calculadora_maximos(bits);
         }
-        cout << "Aperte enter para fechar....";
+        
+        cout << "\nAperte enter para voltar ao menu....";
         cin.ignore();
         cin.get();
+        controladorloop = 0; 
     }
-    
-   
+    return 0;
 }
+
 void verificarintegridade(string &numero, int &baseinicial, int &basefinal)
 {
     bool verificadorbaseinicial = false;
@@ -215,4 +228,64 @@ void calculadora_maximos(int bits)
     cout << "Octal: " << maximo_octal << endl;
     cout << "Decimal: " << maximo_decimal << endl;
     cout << "Hexadecimal: " << maximo_hexa << endl;
+}
+
+void modo_quiz()
+{
+    int pontuacao = 0;
+    int bases[] = {2, 8, 10, 16};
+    
+    cout << "========================================\n";
+    cout << "           BEM-VINDO AO QUIZ!           \n";
+    cout << "========================================\n";
+    
+    // niveis
+    for (int nivel = 1; nivel <= 5; nivel++) {
+        // sorteia 
+        int id_origem = rand() % 4;
+        int id_destino;
+        do {
+            id_destino = rand() % 4;
+        } while (id_origem == id_destino);
+        
+        int base_origem = bases[id_origem];
+        int base_destino = bases[id_destino];
+
+        // sobe a dificuldade
+        int max_val = pow(10, nivel); 
+        int valor_sorteado = (rand() % max_val) + 1; 
+
+        string pergunta_str, resposta_correta;
+        
+        if (base_origem == 10) {
+            pergunta_str = to_string(valor_sorteado);
+        } else {
+            pergunta_str = divisoessucessivas(valor_sorteado, base_origem);
+        }
+        
+        if (base_destino == 10) {
+            resposta_correta = to_string(valor_sorteado);
+        } else {
+            resposta_correta = divisoessucessivas(valor_sorteado, base_destino);
+        }
+
+        cout << "\n--- Nivel " << nivel << " ---\n";
+        cout << "Converta o valor " << pergunta_str << " (Base " << base_origem << ") para a Base " << base_destino << ": ";
+        
+        string resposta_usuario;
+        cin >> resposta_usuario;
+
+        for (auto & c: resposta_usuario) c = toupper(c);
+
+        if (resposta_usuario == resposta_correta) {
+            cout << "Correto! Muito bem.\n";
+            pontuacao += (10 * nivel);
+        } else {
+            cout << "Incorreto! A resposta certa era: " << resposta_correta << "\n";
+        }
+    }
+    
+    cout << "\n========================================\n";
+    cout << "Fim do Quiz! Sua pontuacao final: " << pontuacao << " pontos.\n";
+    cout << "========================================\n";
 }
