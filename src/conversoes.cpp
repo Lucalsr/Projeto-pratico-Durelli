@@ -23,7 +23,6 @@ string divisoessucessivas(double decimal, int basefinal)  //decimal para outras 
             if(fracaoquevai > 9)                             
             {
                 str_fracionada = str_fracionada + (char)(fracaoquevai + 55);         
-                                                                                   
             }                                                                      
             else
             {
@@ -31,6 +30,12 @@ string divisoessucessivas(double decimal, int basefinal)  //decimal para outras 
             }
             partefracionada -= fracaoquevai;
             casas++;
+        }
+        
+        // indica quando houver truncamento
+        if(partefracionada > 1e-9)
+        {
+            cout << "\n[Aviso - Requisito F6] Houve truncamento! A parte fracionaria excedeu o limite de " << precisao_decimal << " casas.\n";
         }
     }
     
@@ -232,5 +237,4 @@ string desagrupamentobits(string numero, int baseinicial)
         }
     }
     return binario;
-
 }
