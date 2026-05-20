@@ -10,7 +10,7 @@
 
 using namespace std;
 void verificarintegridade(string &numero, int &baseinicial, int &basefinal);
-string resultadoconversoes(string numero, int baseinicial, int basefinal);
+string resultadoconversoes(string numero, int baseinicial, int basefinal, bool trace = false);
 void modo_batch();
 void calculadora_maximos(int bits);
 void modo_quiz(); 
@@ -43,6 +43,14 @@ int main()
         {
             verificarintegridade(numero, baseinicial, basefinal);
             cout << "\nResultado: " << resultadoconversoes(numero, baseinicial, basefinal) << endl;
+        }
+        //bloco da opção 2 que estava faltando
+        else if(escolha == 2)
+        {
+            cout << "\n--- MODO PASSO-A-PASSO (TRACE) ---\n";
+            verificarintegridade(numero, baseinicial, basefinal);
+          
+            cout << "\nResultado Final: " << resultadoconversoes(numero, baseinicial, basefinal, true) << endl;
         }
         else if(escolha == 3)
         {
@@ -116,12 +124,16 @@ void verificarintegridade(string &numero, int &baseinicial, int &basefinal)
             cout << "Base nao suportada." << endl << "Escolha entre 2,8,10 e 16: ";
         }
     }
-
 }
 
-string resultadoconversoes(string numero, int baseinicial, int basefinal)
+string resultadoconversoes(string numero, int baseinicial, int basefinal, bool trace)
 {
     string numerofinal = "";
+    
+    if(trace) {
+        cout << "\n[TRACE] Iniciando conversao do valor '" << numero << "' da base " << baseinicial << " para a base " << basefinal << ".\n";
+    }
+
     //fazer as conversões 
     if(baseinicial == 10)
     {
@@ -132,6 +144,7 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal)
         else
         {
             int numeroemint = stoi(numero);
+            if(trace) cout << "[TRACE] Aplicando metodo das divisoes sucessivas...\n";
             numerofinal = divisoessucessivas(numeroemint, basefinal);
         }
     }
@@ -139,10 +152,12 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal)
     {
         if(basefinal == 8 || basefinal == 16)
         {
+            if(trace) cout << "[TRACE] Aplicando agrupamento de bits...\n";
             numerofinal = agrupamentobits(numero, basefinal);
         }
         else if(basefinal == 10)
         {
+            if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
             numerofinal = to_string(somatorioposicional(numero, baseinicial));
         }
         else
@@ -154,16 +169,21 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal)
     {
         if(basefinal == 2)
         {
+            if(trace) cout << "[TRACE] Aplicando desagrupamento de bits...\n";
             numerofinal = desagrupamentobits(numero, baseinicial);
         }
         else if(basefinal == 10)
         {
+            if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
             numerofinal = to_string(somatorioposicional(numero, baseinicial));
         }
         else if(basefinal == 16)
         {
-            string octembits = "";
-            octembits = desagrupamentobits(numero, baseinicial);
+            // rastreio exigido no F4
+            if(trace) cout << "[TRACE] Passo 1: Desagrupando Octal para base Binaria intermediaria...\n";
+            string octembits = desagrupamentobits(numero, baseinicial);
+            if(trace) cout << "[TRACE] Binario intermediario gerado: " << octembits << "\n";
+            if(trace) cout << "[TRACE] Passo 2: Agrupando Binario para Hexadecimal...\n";
             numerofinal = agrupamentobits(octembits, basefinal);
         }
         else
@@ -175,16 +195,20 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal)
     {
         if(basefinal == 2)
         {
+            if(trace) cout << "[TRACE] Aplicando desagrupamento de bits...\n";
             numerofinal = desagrupamentobits(numero, baseinicial);
         }
         else if(basefinal == 8)
         {
-            string hexaembits = "";
-            hexaembits = desagrupamentobits(numero, baseinicial);
+            if(trace) cout << "[TRACE] Passo 1: Desagrupando Hexadecimal para base Binaria intermediaria...\n";
+            string hexaembits = desagrupamentobits(numero, baseinicial);
+            if(trace) cout << "[TRACE] Binario intermediario gerado: " << hexaembits << "\n";
+            if(trace) cout << "[TRACE] Passo 2: Agrupando Binario para Octal...\n";
             numerofinal = agrupamentobits(hexaembits, basefinal); 
         }
         else if(basefinal == 10)
         {
+            if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
             numerofinal = to_string(somatorioposicional(numero, baseinicial));
         }
         else
@@ -192,6 +216,8 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal)
             numerofinal = numero;
         }
     }
+    
+    if(trace) cout << "[TRACE] Conversao concluida.\n";
     return numerofinal;
 }
 
@@ -218,7 +244,8 @@ void modo_batch()
 void calculadora_maximos(int bits)
 {
     string maximo_binario, maximo_octal, maximo_decimal, maximo_hexa;
-    int reserva;
+  
+    unsigned long long reserva; 
     reserva = pow(2, bits) - 1;
     maximo_decimal = to_string(reserva);
     maximo_binario = divisoessucessivas(reserva, 2);
@@ -236,7 +263,7 @@ void modo_quiz()
     int bases[] = {2, 8, 10, 16};
     
     cout << "========================================\n";
-    cout << "           BEM-VINDO AO QUIZ!           \n";
+    cout << "            BEM-VINDO AO QUIZ!            \n";
     cout << "========================================\n";
     
     // niveis
