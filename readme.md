@@ -1,6 +1,6 @@
 # Alunos participando:
 1. Lucas de Sousa Rodrigues
-2. Guilherme Oliveira Brito
+2. Guilherme Oliveira de Brito Silva
 # Conversor de Bases Numéricas
 
 Este é um projeto em C++ desenvolvido para conversão de números entre diferentes bases numéricas (Binário, Octal, Decimal e Hexadecimal), com suporte completo a números inteiros e fracionários (ponto flutuante).
