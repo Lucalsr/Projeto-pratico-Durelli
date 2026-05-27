@@ -1,3 +1,6 @@
+# Alunos participando:
+1. Lucas de Sousa Rodrigues
+2. Guilherme Oliveira Brito
 # Conversor de Bases Numéricas
 
 Este é um projeto em C++ desenvolvido para conversão de números entre diferentes bases numéricas (Binário, Octal, Decimal e Hexadecimal), com suporte completo a números inteiros e fracionários (ponto flutuante).
@@ -30,3 +33,10 @@ PROJETO-PRATICO-DURELLI/
 ├── testes/                  # Testes do sistema
 │   └── suitedetestes.cpp    # Suíte de testes automatizados (+30 casos)
 └── readme.md                # Documentação do projeto
+
+```
+## Código para compilar:
+Compilar o código main: \
+g++ src/main.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/main.exe \
+Compilar o a suíte de testes: \
+g++ testes/suitedetestes.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/conversoes.exe 
