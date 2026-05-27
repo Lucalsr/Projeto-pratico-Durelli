@@ -29,14 +29,15 @@ PROJETO-PRATICO-DURELLI/
 │   ├── conversoes.cpp / .h  # Algoritmos de conversão
 │   ├── formatador.cpp / .h  # Funções de interface e menus
 │   ├── main.cpp             # Ponto de entrada do programa principal
-│   └── parser.cpp / .h      # Validação de bases e entradas
-├── testes/                  # Testes do sistema
+│   └── parser.cpp / .h      # Validação de bases e entradas                 
 │   └── suitedetestes.cpp    # Suíte de testes automatizados (+30 casos)
 └── readme.md                # Documentação do projeto
 
 ```
-## Código para compilar:
+## Código para compilar e rodar os programas:
 Compilar o código main: \
 g++ src/main.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/main.exe \
-Compilar o a suíte de testes: \
-g++ testes/suitedetestes.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/conversoes.exe 
+./output/main.exe \
+Compilar e rodar o suíte de testes: \
+g++ src/testes.cpp src/conversoes.cpp src/parser.cpp src/formatador.cpp -o output/testes.exe \
+./output/testes.exe 
