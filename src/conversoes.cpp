@@ -238,3 +238,38 @@ string desagrupamentobits(string numero, int baseinicial)
     }
     return binario;
 }
+
+string resultadoconversoes(string numero, int base_origem, int base_destino)
+{
+    // Se origem e destino sao a mesma base, retorna o numero identico
+    if (base_origem == base_destino) {
+        return numero;
+    }
+
+    // Primeiro, converte para decimal se nao for ja na base 10
+    double decimal;
+    if (base_origem == 10) {
+        decimal = stod(numero);
+    } else {
+        decimal = somatorioposicional(numero, base_origem);
+    }
+
+    // Depois, converte de decimal para a base destino
+    if (base_destino == 10) {
+        return to_string(decimal);
+    } else if (base_destino == 2 || base_destino == 8 || base_destino == 16) {
+        // Se vem de hexa ou octal e vai para binario, usar desagrupamento e agrupar
+        if ((base_origem == 16 || base_origem == 8) && base_destino == 2) {
+            return desagrupamentobits(numero, base_origem);
+        }
+        // Se vem de binario e vai para hexa ou octal, usar agrupamento
+        else if (base_origem == 2 && (base_destino == 16 || base_destino == 8)) {
+            return agrupamentobits(numero, base_destino);
+        }
+        // Caso geral: passa pelo decimal
+        else {
+            return divisoessucessivas(decimal, base_destino);
+        }
+    }
+    return "";
+}
