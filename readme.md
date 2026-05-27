@@ -29,8 +29,7 @@ PROJETO-PRATICO-DURELLI/
 │   ├── conversoes.cpp / .h  # Algoritmos de conversão
 │   ├── formatador.cpp / .h  # Funções de interface e menus
 │   ├── main.cpp             # Ponto de entrada do programa principal
-│   └── parser.cpp / .h      # Validação de bases e entradas
-├── testes/                  # Testes do sistema
+│   └── parser.cpp / .h      # Validação de bases e entradas                 
 │   └── suitedetestes.cpp    # Suíte de testes automatizados (+30 casos)
 └── readme.md                # Documentação do projeto
 
