@@ -14,6 +14,7 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
 void modo_batch();
 void calculadora_maximos(int bits);
 void modo_quiz(); 
+int texto_para_inteiro(string s);
 
 int main()
 {
@@ -158,7 +159,7 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
         else if(basefinal == 10)
         {
             if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
-            numerofinal = to_string(somatorioposicional(numero, baseinicial));
+            numerofinal = divisoessucessivas(somatorioposicional(numero, baseinicial), 10);
         }
         else
         {
@@ -175,7 +176,7 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
         else if(basefinal == 10)
         {
             if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
-            numerofinal = to_string(somatorioposicional(numero, baseinicial));
+            numerofinal = divisoessucessivas(somatorioposicional(numero, baseinicial), 10);
         }
         else if(basefinal == 16)
         {
@@ -208,7 +209,7 @@ string resultadoconversoes(string numero, int baseinicial, int basefinal, bool t
         else if(basefinal == 10)
         {
             if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
-            numerofinal = to_string(somatorioposicional(numero, baseinicial));
+            numerofinal = divisoessucessivas(somatorioposicional(numero, baseinicial), 10);
         }
         else
         {
@@ -229,9 +230,9 @@ void modo_batch()
     while(getline(arqdados, valor, ';'))    
     {
         getline(arqdados, base_int, ';');
-        baseinicial = stoi(base_int);
+        baseinicial = texto_para_inteiro   (base_int);
         getline(arqdados, base_int, '\n');
-        basefinal = stoi(base_int);
+        basefinal = texto_para_inteiro(base_int);
         valorsaida = resultadoconversoes(valor, baseinicial, basefinal);
         dadossaida << valor << ";" << baseinicial << ";" << valorsaida << ";" << basefinal << endl;
     }
@@ -245,7 +246,7 @@ void calculadora_maximos(int bits)
     string maximo_binario, maximo_octal, maximo_decimal, maximo_hexa;
     unsigned long long reserva; 
     reserva = pow(2, bits) - 1;
-    maximo_decimal = to_string(reserva);
+    maximo_decimal = divisoessucessivas(reserva, 10);
     maximo_binario = divisoessucessivas(reserva, 2);
     maximo_octal = divisoessucessivas(reserva, 8);
     maximo_hexa = divisoessucessivas(reserva, 16);
@@ -280,20 +281,9 @@ void modo_quiz()
         // sobe a dificuldade
         int max_val = pow(10, nivel); 
         int valor_sorteado = (rand() % max_val) + 1; 
-
-        string pergunta_str, resposta_correta;
         
-        if (base_origem == 10) {
-            pergunta_str = to_string(valor_sorteado);
-        } else {
-            pergunta_str = divisoessucessivas(valor_sorteado, base_origem);
-        }
-        
-        if (base_destino == 10) {
-            resposta_correta = to_string(valor_sorteado);
-        } else {
-            resposta_correta = divisoessucessivas(valor_sorteado, base_destino);
-        }
+        string pergunta_str = divisoessucessivas(valor_sorteado, base_origem);
+        string resposta_correta = divisoessucessivas(valor_sorteado, base_destino);
 
         cout << "\n--- Nivel " << nivel << " ---\n";
         cout << "Converta o valor " << pergunta_str << " (Base " << base_origem << ") para a Base " << base_destino << ": ";
@@ -314,4 +304,14 @@ void modo_quiz()
     cout << "\n========================================\n";
     cout << "Fim do Quiz! Sua pontuacao final: " << pontuacao << " pontos.\n";
     cout << "========================================\n";
+}
+
+int texto_para_inteiro(string s) {
+    int num = 0;
+    for (size_t i = 0; i < s.length(); i++) {
+        if (s[i] >= '0' && s[i] <= '9') {
+            num = num * 10 + (s[i] - '0');
+        }
+    }
+    return num;
 }
