@@ -38,11 +38,13 @@ PROJETO-PRATICO-DURELLI/
 1. Realize o Pull deste repósitorio no seu computador. 
 2. Compile o código principal e o rode com os comandos: 
 ``` 
-g++ src/main.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/main.exe 
-./output/main.exe
+g++ src/main.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/main.exe
+cd output
+./main.exe
 ```
 4. Compile e rodade o suíte de testes com os comandos: 
 ```
-g++ src/testes.cpp src/conversoes.cpp src/parser.cpp src/formatador.cpp -o output/testes.exe 
-./output/testes.exe
+g++ src/testes.cpp src/conversoes.cpp src/parser.cpp src/formatador.cpp -o output/testes.exe
+cd output
+./testes.exe
 ```
