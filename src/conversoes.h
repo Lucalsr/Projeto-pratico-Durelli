@@ -12,6 +12,4 @@ string agrupamentobits(string binario, int base_destino);
 
 string desagrupamentobits(string numero, int baseinicial);
 
-string resultadoconversoes(string numero, int base_origem, int base_destino);
-
 #endif

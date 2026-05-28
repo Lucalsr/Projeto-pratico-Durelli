@@ -6,6 +6,7 @@
 #include "conversoes.h"
 
 using namespace std;
+string resultadoconversoes(string numero, int baseinicial, int basefinal, bool trace);
 
 void testar_parser() {
     cout << "[TESTE] Executando testes do Parser..." << endl;
@@ -78,15 +79,16 @@ void testar_conversoes() {
     assert(desagrupamentobits("A.8", 16) == "1010.1000"); // Desagrupa parte fracionária
 
     // 48 a 52: Testes de resultadoconversoes (Fluxos completos de integração)
-    // Conversões pra base 10 geram string com precisão de float, usamos stod() para ignorar zeros extras
-    assert(stod(resultadoconversoes("1010", 2, 10)) == 10.0);
-    assert(resultadoconversoes("1010", 2, 2) == "1010"); // Mesma base origem-destino
-    assert(resultadoconversoes("FF", 16, 2) == "11111111");
-    assert(resultadoconversoes("12", 8, 2) == "001010");
-    assert(resultadoconversoes("A", 16, 8) == "12"); // Hexa -> Binário intermediário -> Octal
+    // Passamos 'false' no final para não imprimir o [TRACE] durante os testes silenciosos
+    assert(stod(resultadoconversoes("1010", 2, 10, false)) == 10.0);
+    assert(resultadoconversoes("1010", 2, 2, false) == "1010"); // Mesma base origem-destino
+    assert(resultadoconversoes("FF", 16, 2, false) == "11111111");
+    assert(resultadoconversoes("12", 8, 2, false) == "001010");
+    assert(resultadoconversoes("A", 16, 8, false) == "12"); // Hexa -> Binário intermediário -> Octal
 
     cout << "  -> 29 testes de Conversoes passaram com sucesso!\n";
 }
+
 
 int main() {
     cout << "========================================" << endl;
@@ -101,4 +103,98 @@ int main() {
     cout << "========================================" << endl;
     
     return 0;
+}
+string resultadoconversoes(string numero, int baseinicial, int basefinal, bool trace)
+{
+    string numerofinal = "";
+    
+    if(trace) {
+        cout << "\n[TRACE] Iniciando conversao do valor '" << numero << "' da base " << baseinicial << " para a base " << basefinal << ".\n";
+    }
+
+    if(baseinicial == 10)
+    {
+        if(basefinal == 10)
+        {
+            numerofinal = numero;
+        }
+        else
+        {
+          
+            double numerodouble = somatorioposicional(numero, baseinicial);
+            
+            if(trace) cout << "[TRACE] Aplicando metodo das divisoes sucessivas...\n";
+            numerofinal = divisoessucessivas(numerodouble, basefinal);
+        }
+    }
+    else if(baseinicial == 2)
+    {
+        if(basefinal == 8 || basefinal == 16)
+        {
+            if(trace) cout << "[TRACE] Aplicando agrupamento de bits...\n";
+            numerofinal = agrupamentobits(numero, basefinal);
+        }
+        else if(basefinal == 10)
+        {
+            if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
+            numerofinal = divisoessucessivas(somatorioposicional(numero, baseinicial), 10);
+        }
+        else
+        {
+            numerofinal = numero;
+        }
+    }
+    else if(baseinicial == 8)
+    {
+        if(basefinal == 2)
+        {
+            if(trace) cout << "[TRACE] Aplicando desagrupamento de bits...\n";
+            numerofinal = desagrupamentobits(numero, baseinicial);
+        }
+        else if(basefinal == 10)
+        {
+            if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
+            numerofinal = divisoessucessivas(somatorioposicional(numero, baseinicial), 10);
+        }
+        else if(basefinal == 16)
+        {
+            if(trace) cout << "[TRACE] Passo 1: Desagrupando Octal para base Binaria intermediaria...\n";
+            string octembits = desagrupamentobits(numero, baseinicial);
+            if(trace) cout << "[TRACE] Binario intermediario gerado: " << octembits << "\n";
+            if(trace) cout << "[TRACE] Passo 2: Agrupando Binario para Hexadecimal...\n";
+            numerofinal = agrupamentobits(octembits, basefinal);
+        }
+        else
+        {
+            numerofinal = numero;
+        }
+    }
+    else if(baseinicial == 16)
+    {
+        if(basefinal == 2)
+        {
+            if(trace) cout << "[TRACE] Aplicando desagrupamento de bits...\n";
+            numerofinal = desagrupamentobits(numero, baseinicial);
+        }
+        else if(basefinal == 8)
+        {
+            if(trace) cout << "[TRACE] Passo 1: Desagrupando Hexadecimal para base Binaria intermediaria...\n";
+            string hexaembits = desagrupamentobits(numero, baseinicial);
+            if(trace) cout << "[TRACE] Binario intermediario gerado: " << hexaembits << "\n";
+            if(trace) cout << "[TRACE] Passo 2: Agrupando Binario para Octal...\n";
+            numerofinal = agrupamentobits(hexaembits, basefinal); 
+        }
+        else if(basefinal == 10)
+        {
+            if(trace) cout << "[TRACE] Aplicando somatorio posicional...\n";
+            numerofinal = divisoessucessivas(somatorioposicional(numero, baseinicial), 10);
+        }
+        else
+        {
+            numerofinal = numero;
+        }
+    }
+    
+    if(trace) cout << "[TRACE] Conversao concluida.\n";
+    return numerofinal;
 }
