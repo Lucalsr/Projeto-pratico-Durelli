@@ -6,7 +6,7 @@
 #include <fstream>
 #include <string>
 #include <cstdlib> 
-#include <ctime>   
+#include <ctime>    
 
 using namespace std;
 void verificarintegridade(string &numero, int &baseinicial, int &basefinal);
@@ -33,7 +33,11 @@ int main()
         if(escolha >= 1 && escolha <= 5) 
         {
             controladorloop = 1;
-            cout << system("cls");
+            #ifdef _WIN32
+                system("cls");
+            #else
+                system("clear");
+            #endif
         }
         else
         {
@@ -81,7 +85,13 @@ void verificarintegridade(string &numero, int &baseinicial, int &basefinal)
     cout << "Qual a base numerica inicial do numero?" << endl << "Escreva de forma numerica: ";
     while(!verificadorbaseinicial)    //verificar se a base inicial inserida e suportado
     {
-        cin >> baseinicial;
+        if (!(cin >> baseinicial)) {
+            cin.clear(); // Limpa o estado de erro do cin
+            cin.ignore(10000, '\n'); // Descarta o que o usuario digitou de errado
+            cout << "Entrada invalida! Digite apenas numeros.\nEscolha entre 2, 8, 10 e 16: ";
+            continue; // Volta para o inicio do loop
+        }
+        
         if(analise_bases(baseinicial))
         {
             verificadorbaseinicial = true;
@@ -113,7 +123,12 @@ void verificarintegridade(string &numero, int &baseinicial, int &basefinal)
     cout << "Qual a base numerica para a qual o valor sera transformado?" << endl << "Escreva de forma numerica: ";
     while(!verificadorbasefinal)            //verificar se a base final inserida e suportada
     {
-        cin >> basefinal;
+        if (!(cin >> basefinal)) {
+            cin.clear(); // Limpa o estado de erro do cin
+            cin.ignore(10000, '\n'); // Descarta o que o usuario digitou de errado
+            cout << "Entrada invalida! Digite apenas numeros.\nEscolha entre 2, 8, 10 e 16: ";
+            continue; // Volta para o inicio do loop
+        }
         if(analise_bases(basefinal))
         {
             verificadorbasefinal = true;
