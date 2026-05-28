@@ -34,10 +34,15 @@ PROJETO-PRATICO-DURELLI/
 └── readme.md                # Documentação do projeto
 
 ```
-## Código para compilar e rodar os programas:
-Compilar o código main: \
-g++ src/main.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/main.exe \
-./output/main.exe \
-Compilar e rodar o suíte de testes: \
-g++ src/testes.cpp src/conversoes.cpp src/parser.cpp src/formatador.cpp -o output/testes.exe \
-./output/testes.exe 
+## Instruções para rodar o programa:
+1. Realize o Pull deste repósitorio no seu computador. 
+2. Compile o código principal e o rode com os comandos: 
+``` 
+g++ src/main.cpp src/conversoes.cpp src/formatador.cpp src/parser.cpp -I src -o output/main.exe 
+./output/main.exe
+```
+4. Compile e rodade o suíte de testes com os comandos: 
+```
+g++ src/testes.cpp src/conversoes.cpp src/parser.cpp src/formatador.cpp -o output/testes.exe 
+./output/testes.exe
+```
